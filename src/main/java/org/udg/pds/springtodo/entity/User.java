@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity(name = "users")
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"email", "username"}))
@@ -43,6 +44,9 @@ public class User implements Serializable {
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
   private Collection<Task> tasks;
 
+  @OneToMany(cascade = CascadeType.ALL, mappedBy="user")
+  private Collection<Group> groups;
+
   @JsonView(Views.Private.class)
   public Long getId() {
     return id;
@@ -76,8 +80,18 @@ public class User implements Serializable {
     return tasks;
   }
 
+  @JsonView(Views.Complete.class)
+  public Collection<Group> getGroups() {
+      groups.size();
+      return groups;
+  }
+
   public void addTask(Task task) {
     tasks.add(task);
   }
+
+    public void addGroup(Group group) {
+        groups.add(group);
+    }
 
 }
